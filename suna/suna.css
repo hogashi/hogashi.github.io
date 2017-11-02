@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  background: #000000;
+}
+
+div.suna {
+  flex: 0 1 auto;
+}
+
+div#button {
+  position: fixed;
+  width: 50px;
+  height: 30px;
+  left: calc(50% - 25px);
+  top: calc(50% - 15px);
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: #fff;
+  border: 0;
+  font-family: "VL Gothic", consolas, monospace;
+}
