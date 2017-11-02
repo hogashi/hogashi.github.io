@@ -1,11 +1,13 @@
 // suna.js
 
+const min = (a, b) => a < b ? a : b
+
 class SunaArashi {
   constructor() {
     this.state = {
       windowWidth : window.innerWidth,
       windowHeight: window.innerHeight,
-      sunaSize    : 7,
+      sunaSize    : min(window.innerWidth, window.innerHeight) / 30,
       interval    : 10,
       timer       : null,
     }
