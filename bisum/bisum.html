@@ -152,11 +152,13 @@ const makeBlank = n => {
   return blank
 }
 
+const max = (a, b) => a > b ? a : b
+
 const solve = () => {
   cls()
   let curq = q['q00']
   // tape
-  const offset = prob.length
+  const offset = max(...prob.split('+').map(p => p.length)) + 3
   const t = `${makeBlank(offset)}${prob}BB`.split('')
   // tape index
   let ti = offset
