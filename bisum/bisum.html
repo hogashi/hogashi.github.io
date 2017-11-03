@@ -199,14 +199,14 @@ const solve = () => {
   debug({t: t.join(''), index: ti - offset}, count++)
   while (doq() !== 'ACC') {
     debug({t: t.join(''), index: ti - offset}, count)
-    if (ti < 0 || 2 * offset + 2 < ti || count++ > 10000) {
+    if (ti < 0 || offset + prob.length + 2 < ti || count++ > 10000) {
       debug({status: 'failed'}, count)
       break
     }
   }
 
   debug({t: t.join(''), ans: t.filter(c => c !== 'B').join('')}, count)
-
+  return count
 }
 
 </script>
