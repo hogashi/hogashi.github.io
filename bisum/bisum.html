@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>binary sum TM</title>
+  <style>
+    * {
+      font-family: console, monospace;
+    }
+    td.count {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div>input binary numbers (using 0 / 1)</div>
+  <input id="bi1" type="text" placeholder="binary num 1">
+  +
+  <input id="bi2" type="text" placeholder="binary num 2">
+  <button id="btn">Go</button>
+  <div>output will also be in console</div>
+  <pre>
+    <table id="out"></table>
+  </pre>
+
+<script>
+// bisumtm.js
+
+// binary number summation TM (Turing Machine)
+
+let prob = '10111+110'
+
+const bi1 = document.getElementById('bi1'),
+      bi2 = document.getElementById('bi2'),
+      btn = document.getElementById('btn'),
+      out = document.getElementById('out')
+
+btn.addEventListener('click', e => {
+  prob = `${bi1.value}+${bi2.value}`
+  solve()
+})
+
+const cls = () => {
+  out.innerHTML = ''
+}
+
+const debug = (args, i) => {
+  console.log(args)
+  out.insertAdjacentHTML(
+    'afterbegin',
+    `<tr>` +
+    `<td class="count">${i}:</td>` +
+    `<td>${Object.keys(args).map(key => `${key}:${args[key]}`)}</td>` +
+    `</tr>`
+  )
+}
+
+const rawq = '\
+q00,*,*,R,q00\n\
+q00,B,$,L,q0\n\
+q0,*,*,L,q0\n\
+q0,B,=,R,q1\n\
+q1,0,B,R,q2\n\
+q2,+,B,R,q2\n\
+q2,*,*,R,q2\n\
+q2,$,$,L,q203\n\
+q203,*,*,L,q203\n\
+q203,1,B,L,q3\n\
+q3,*,*,L,q3\n\
+q3,=,=,L,q4\n\
+q4,*,*,L,q4\n\
+q4,B,1,R,q2\n\
+q203,0,B,L,q5\n\
+q5,*,*,L,q5\n\
+q5,=,=,L,q7\n\
+q7,*,*,L,q7\n\
+q7,B,0,R,q2\n\
+q203,=,B,R,qACC\n\
+qACC,*,*,R,qACC\n\
+qACC,$,B,ACC,-\n\
+q1,1,1,R,q8\n\
+q8,*,*,R,q8\n\
+q8,+,+,L,q9\n\
+q9,*,*,L,q9\n\
+q9,0,B,R,q10\n\
+q10,*,*,R,q10\n\
+q10,$,$,L,q11\n\
+q11,*,*,L,q11\n\
+q11,0,B,L,q12\n\
+q12,*,*,L,q12\n\
+q12,=,=,L,q13\n\
+q13,*,*,L,q13\n\
+q13,B,0,R,q8\n\
+q11,1,B,L,q14\n\
+q14,*,*,L,q14\n\
+q14,=,=,L,q15\n\
+q15,*,*,L,q15\n\
+q15,B,1,R,q8\n\
+q9,1,B,R,q16\n\
+q16,*,*,R,q16\n\
+q16,$,$,L,q17\n\
+q17,*,*,L,q17\n\
+q17,0,B,L,q14\n\
+q17,1,B,L,q19\n\
+q19,*,*,L,q19\n\
+q19,=,=,L,q20\n\
+q20,*,*,L,q20\n\
+q20,B,0,R,q21\n\
+q21,*,*,R,q21\n\
+q21,+,+,L,q22\n\
+q22,*,*,L,q22\n\
+q22,0,B,R,q23\n\
+q23,*,*,R,q23\n\
+q23,$,$,L,q24\n\
+q24,*,*,L,q24\n\
+q24,0,B,L,q14\n\
+q24,1,B,L,q19\n\
+q22,1,B,R,q25\n\
+q25,*,*,R,q25\n\
+q25,$,$,L,q26\n\
+q26,*,*,L,q26\n\
+q26,0,B,L,q19\n\
+q26,1,B,L,q27\n\
+q27,*,*,L,q27\n\
+q27,=,=,L,q28\n\
+q28,*,*,L,q28\n\
+q28,B,1,L,q21\n\
+q9,=,=,R,q2\n\
+q22,=,=,R,q16\n\
+q11,+,B,L,q5\n\
+q17,+,B,L,q3\n\
+q24,+,+,L,q14\n\
+q26,+,+,L,q19\
+'.split('\n')
+
+// init
+const qmap = {}
+const q = [{}, ...rawq].reduce((pre, cur) => {
+  const curobj = {}
+  const [key, c, ...attr] = cur.split(',')
+  if (!pre[key]) {
+    pre[key] = {}
+  }
+  pre[key][c] = attr
+  return pre
+})
+
+const makeBlank = n => {
+  let blank = ''
+  for (let i = 0; i < n; i++) {
+    blank += 'B'
+  }
+  return blank
+}
+
+const solve = () => {
+  cls()
+  let curq = q['q00']
+  // tape
+  const offset = prob.length
+  const t = `${makeBlank(offset)}${prob}BB`.split('')
+  // tape index
+  let ti = offset
+
+  const updatet = c => {
+    let cq
+    if (curq[c]) {
+      cq = curq[c]
+      console.log(curq, c, cq)
+    }
+    else {
+      cq = [].concat(curq['*'])
+      console.log(curq, c, cq)
+      if (cq[0] === '*') {
+        cq[0] = c
+      }
+    }
+    t[ti] = cq[0]
+    // debugger
+    if (cq[1] === 'ACC') {
+      console.log('done')
+      return ['ACC', '-']
+    }
+    ti += cq[1] === 'R' ? 1 : -1
+    return ['CON', cq[2]]
+  }
+
+  const doq = () => {
+    const [res, nextq] = updatet(t[ti])
+    if (res !== 'ACC') {
+      curq = q[nextq]
+    }
+    return res
+  }
+
+  let count = 0
+
+  while (doq() !== 'ACC') {
+    debug({t: t.join(''), index: ti - offset}, count)
+    if (ti < 0 || 2 * offset + 2 < ti || count++ > 10000) {
+      debug({status: 'failed'}, count)
+      break
+    }
+  }
+
+  debug({t: t.join(''), ans: t.filter(c => c !== 'B').join('')}, count)
+
+}
+
+</script>
+</body>
+</html>
