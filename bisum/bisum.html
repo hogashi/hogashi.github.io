@@ -194,6 +194,7 @@ const solve = () => {
 
   let count = 0
 
+  debug({t: t.join(''), index: ti - offset}, count++)
   while (doq() !== 'ACC') {
     debug({t: t.join(''), index: ti - offset}, count)
     if (ti < 0 || 2 * offset + 2 < ti || count++ > 10000) {
