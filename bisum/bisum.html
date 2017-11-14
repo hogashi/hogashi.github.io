@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>binary sum TM</title>
+  <style>
+    * {
+      font-family: console, monospace;
+    }
+    td.count {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div>input binary numbers (using 0 / 1)</div>
+  <input id="bi1" type="text" placeholder="binary num 1">
+  +
+  <input id="bi2" type="text" placeholder="binary num 2">
+  <button id="btn">Go</button>
+  <div>output will also be in console</div>
+  <pre>
+    <table id="out"></table>
+  </pre>
+
+<script>
+// bisumtm.js
+
+// binary number summation TM (Turing Machine)
+
+let prob = '10111+110'
+
+const bi1 = document.getElementById('bi1'),
+      bi2 = document.getElementById('bi2'),
+      btn = document.getElementById('btn'),
+      out = document.getElementById('out')
+
+btn.addEventListener('click', e => {
+  prob = `${bi1.value}+${bi2.value}`
+  solve()
+})
+
+const cls = () => {
+  out.innerHTML = ''
+}
+
+const debug = (args, i) => {
+  console.log(args)
+  out.insertAdjacentHTML(
+    'afterbegin',
+    `<tr>` +
+    `<td class="count">${i}:</td>` +
+    `<td>${Object.keys(args).map(key => `${key}:${args[key]}`)}</td>` +
+    `</tr>`
+  )
+}
+
+const chars = 'B01+='.split('')
+
+const rawq = '\
+q1,*,*,R,q1\n\
+q1,B,$,L,q2\n\
+q2,*,*,L,q2\n\
+q2,B,=,R,q3\n\
+q3,0,B,R,q4\n\
+q3,1,1,R,q10\n\
+q4,+,B,R,q4\n\
+q4,*,*,R,q4\n\
+q4,$,$,L,q5\n\
+q5,*,*,L,q5\n\
+q5,0,B,L,q8\n\
+q5,1,B,L,q6\n\
+q5,=,B,R,q30\n\
+q6,*,*,L,q6\n\
+q6,=,=,L,q7\n\
+q7,*,*,L,q7\n\
+q7,B,1,R,q4\n\
+q8,*,*,L,q8\n\
+q8,=,=,L,q9\n\
+q9,*,*,L,q9\n\
+q9,B,0,R,q4\n\
+q10,*,*,R,q10\n\
+q10,+,+,L,q11\n\
+q11,*,*,L,q11\n\
+q11,0,B,R,q12\n\
+q11,1,B,R,q18\n\
+q11,=,=,R,q4\n\
+q12,*,*,R,q12\n\
+q12,$,$,L,q13\n\
+q13,*,*,L,q13\n\
+q13,0,B,L,q14\n\
+q13,1,B,L,q16\n\
+q13,+,B,L,q8\n\
+q14,*,*,L,q14\n\
+q14,=,=,L,q15\n\
+q15,*,*,L,q15\n\
+q15,B,0,R,q10\n\
+q16,*,*,L,q16\n\
+q16,=,=,L,q17\n\
+q17,*,*,L,q17\n\
+q17,B,1,R,q10\n\
+q18,*,*,R,q18\n\
+q18,$,$,L,q19\n\
+q19,*,*,L,q19\n\
+q19,0,B,L,q16\n\
+q19,1,B,L,q20\n\
+q19,+,B,L,q6\n\
+q20,*,*,L,q20\n\
+q20,=,=,L,q21\n\
+q21,*,*,L,q21\n\
+q21,B,0,R,q22\n\
+q22,*,*,R,q22\n\
+q22,+,+,L,q23\n\
+q23,*,*,L,q23\n\
+q23,0,B,R,q24\n\
+q23,1,B,R,q26\n\
+q23,=,=,R,q18\n\
+q24,*,*,R,q24\n\
+q24,$,$,L,q25\n\
+q25,*,*,L,q25\n\
+q25,0,B,L,q16\n\
+q25,1,B,L,q20\n\
+q25,+,+,L,q16\n\
+q26,*,*,R,q26\n\
+q26,$,$,L,q27\n\
+q27,*,*,L,q27\n\
+q27,0,B,L,q20\n\
+q27,1,B,L,q28\n\
+q27,+,+,L,q20\n\
+q28,*,*,L,q28\n\
+q28,=,=,L,q29\n\
+q29,*,*,L,q29\n\
+q29,B,1,L,q22\n\
+q30,*,*,R,q30\n\
+q30,$,B,ACC,-\
+'.split('\n')
+
+// init
+const qmap = {}
+const q = [{}, ...rawq].reduce((pre, cur) => {
+  const curobj = {}
+  const [key, c, ...attr] = cur.split(',')
+  if (!pre[key]) {
+    pre[key] = {}
+  }
+  pre[key][c] = attr
+  return pre
+})
+
+const makeBlank = n => {
+  let blank = ''
+  for (let i = 0; i < n; i++) {
+    blank += 'B'
+  }
+  return blank
+}
+
+const max = (a, b) => a > b ? a : b
+
+const solve = () => {
+  cls()
+  let curq = q['q1']
+  // tape
+  const offset = max(...prob.split('+').map(p => p.length)) + 3
+  const t = `${makeBlank(offset)}${prob}BB`.split('')
+  // tape index
+  let ti = offset
+
+  const updatet = c => {
+    let cq
+    if (curq[c]) {
+      cq = curq[c]
+      console.log(curq, c, cq)
+    }
+    else {
+      cq = [].concat(curq['*'])
+      console.log(curq, c, cq)
+      if (cq[0] === '*') {
+        cq[0] = c
+      }
+    }
+    t[ti] = cq[0]
+    // debugger
+    if (cq[1] === 'ACC') {
+      console.log('done')
+      return ['ACC', '-']
+    }
+    ti += cq[1] === 'R' ? 1 : -1
+    return ['CON', cq[2]]
+  }
+
+  const doq = () => {
+    const [res, nextq] = updatet(t[ti])
+    if (res !== 'ACC') {
+      curq = q[nextq]
+    }
+    return res
+  }
+
+  let count = 0
+
+  debug({t: t.join(''), index: ti - offset}, count++)
+  while (doq() !== 'ACC') {
+    debug({t: t.join(''), index: ti - offset}, count)
+    if (ti < 0 || offset + prob.length + 2 < ti || count++ > 10000) {
+      debug({status: 'failed'}, count)
+      break
+    }
+  }
+
+  debug({t: t.join(''), ans: t.filter(c => c !== 'B').join('')}, count)
+  return count
+}
+
+// solve()
+console.log(Object.keys(q))
+
+const sparceq = () => {
+  const sq = Object.keys(q).map(key => {
+    return chars.map(c => {
+      let tq
+      if (q[key][c]) {
+        tq = [].concat(q[key][c])
+      }
+      else {
+        tq = [].concat(q[key]['*'])
+        if (tq[0] === '*') {
+          tq[0] = c
+        }
+      }
+      return [key, c, tq].join(',')
+    }).join('\n')
+  }).join('\n\n')
+  console.log(sq)
+}
+
+const sortq = () => {
+  const sorted = Object.keys(q).map(key => {
+    return Object.keys(q[key]).map(k => {
+      return [key, k, q[key][k]].join(',')
+    }).join('\n')
+  }).join('\n\n')
+  console.log(sorted)
+}
+
+</script>
+</body>
+</html>
