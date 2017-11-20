@@ -7,6 +7,15 @@
     <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
     <script type="text/javascript">
     Hatena.Star.Token = '81241343741ba22d022cab4b322b5b9ead292a79';
+    Hatena.Star.SiteConfig = {
+      entryNodes: {
+        'div.container': {
+          uri: 'h1 a',
+          title: 'h1',
+          container: 'h1'
+        }
+      }
+    };
     </script>
     <style>
       * {
@@ -51,6 +60,9 @@
       #container > div > .appRoot > header > h1 {
         flex: 0 1 auto;
         margin: 10px 0;
+      }
+      #container > div > .appRoot > header > h1 > a {
+        text-decoration: none;
       }
       #container > div > .appRoot > header > .icon {
         flex: 0 1 auto;
@@ -100,7 +112,7 @@
       <div>
         <div class="appRoot">
           <header>
-            <h1 class="pageTitle"># hogashi</h1>
+            <h1 class="pageTitle"><a href="/"># hogashi</a></h1>
             <div class="icon"></div>
           </header>
           <main>
