@@ -159,7 +159,7 @@ class Board {
   }
 
   _onClick(e) {
-    const box = e.srcElement;
+    const box = e.target;
     if (this._isValid(box)) {
       let r = parseInt(box.getAttribute("data-r"), 10);
       let c = parseInt(box.getAttribute("data-c"), 10);
