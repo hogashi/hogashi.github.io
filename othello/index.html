@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Monaco, Consolas, "Noto Sans Mono", monospace, sans-serif;
+}
+#title {
+  margin: 5px;
+  font-size: 18px;
+}
+#pass {
+  margin-left: 5px;
+  padding: 3px;
+  font-size: 18px;
+}
+table {
+  background: #000;
+}
+td {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #dfd;
+}
+.color-0 {
+  background: #8f8;
+}
+.color-1 {
+  background: #555;
+}
+.color-2 {
+  background: #eee;
+}
+</style>
+  <body>
+    <div id="title">
+      # othello
+      - <span id="colorTurn">BLACK</span>'s turn
+      -- <span id="score">B 0 : 0 W</span>
+      -- <button id="pass">pass</button>
+    </div>
+    <table id="dai"></table>
+<script>
+
+// othello.js
+
+const NONE = 0;
+const BLACK = 1;
+const WHITE = 2;
+const N = NONE;
+const B = BLACK;
+const W = WHITE;
+const AROUNDS = [
+  [-1, -1], [ 0, -1], [ 1, -1],
+  [-1,  0],           [ 1,  0],
+  [-1,  1], [ 0,  1], [ 1,  1],
+];
+
+class Board {
+  constructor(num = [8, 8]) {
+    this.num = num;
+    // dai
+    this.dai = document.getElementById("dai");
+    this.teban = document.getElementById("colorTurn");
+    this.sukoa = document.getElementById("score");
+    this.pasu = document.getElementById("pass");
+    this.pasu.addEventListener("click", this._onPassClick.bind(this));
+    this.board = [];
+    for (let i = 0; i < this.num[0]; i++) {
+      const row = document.createElement("tr");
+      this.board.push([]);
+      for (let j = 0; j < this.num[1]; j++) {
+        const masu = document.createElement("td");
+        masu.setAttribute("data-r", `${i}`);
+        masu.setAttribute("data-c", `${j}`);
+        masu.addEventListener("click", this._onClick.bind(this));
+        row.appendChild(masu);
+        this.board[i].push(N);
+      }
+      this.dai.appendChild(row);
+    }
+    // init
+    this.board[3][3] = W;
+    this.board[3][4] = B;
+    this.board[4][3] = B;
+    this.board[4][4] = W;
+
+    this.colorTurn = B;
+    this.render();
+  }
+
+  _calcScore() {
+    this.score = this.board.reduce((sum, row) => {
+      const csum = row.reduce((all, col) => {
+        let isBlack = 0,
+            isWhite = 0;
+        switch(col) {
+          case B:
+            isBlack = 1;
+            break;
+          case W:
+            isWhite = 1;
+            break;
+        }
+        return [all[0] + isBlack, all[1] + isWhite]
+      }, [0, 0]);
+      return [sum[0] + csum[0], sum[1] + csum[1]]
+    }, [0, 0]);
+  }
+
+  _flipTurn() {
+    // flip B & W
+    this.colorTurn = B + W - this.colorTurn;
+  }
+
+  _isNone(box) {
+    return /color-0/.test(box.getAttribute("class"));
+  }
+
+  _isOnBoard(rc) {
+    return 0 <= rc[0] && rc[0] < this.num[0]
+        && 0 <= rc[1] && rc[1] < this.num[1];
+  }
+
+  _calcEarn(box) {
+    const earn = [];
+    AROUNDS.map(df => {
+      const ea = [];
+      let r = parseInt(box.getAttribute("data-r"), 10) + df[0];
+      let c = parseInt(box.getAttribute("data-c"), 10) + df[1];
+      while (this._isOnBoard([r, c])) {
+        if (this.board[r][c] === this.colorTurn) {
+          earn.push(ea);
+          break;
+        }
+        if (this.board[r][c] === N) {
+          break;
+        }
+        ea.push([r, c]);
+        r += df[0];
+        c += df[1];
+      }
+    });
+    return earn;
+  }
+
+  _isValid(box) {
+    this.earn = this._calcEarn(box);
+    return this._isNone(box)
+        && this.earn.length > 0
+        && this.earn.some(e => e.length > 0);
+  }
+
+  _flipEarn() {
+    this.earn.forEach(ea => {
+      ea.forEach(c => this.board[c[0]][c[1]] = this.colorTurn);
+    });
+  }
+
+  _onClick(e) {
+    const box = e.srcElement;
+    if (this._isValid(box)) {
+      let r = parseInt(box.getAttribute("data-r"), 10);
+      let c = parseInt(box.getAttribute("data-c"), 10);
+      this.board[r][c] = this.colorTurn;
+      this._flipEarn();
+      this._flipTurn();
+    }
+    this.render();
+  }
+
+  _onPassClick() {
+    this._flipTurn();
+    this.render();
+  }
+
+  _setClass() {
+    this.board.forEach((r, i) => {
+      r.forEach((c, j) => {
+        const masu = this.dai.querySelectorAll("tr")[i].querySelectorAll("td")[j];
+        masu.setAttribute("class", `color-${c}`);
+      });
+    });
+  }
+
+  render() {
+    this._calcScore();
+    this.sukoa.innerHTML = `B ${this.score[0]} : ${this.score[1]} W`
+    this._setClass();
+    this.teban.innerHTML = this.colorTurn === B ? "BLACK" : "WHITE";
+  }
+}
+
+const board = new Board();
+
+</script>
+  </body>
+</html>
+
