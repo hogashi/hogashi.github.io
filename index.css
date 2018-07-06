@@ -36,6 +36,7 @@ a {
 }
 #container > header > h1 > a {
   text-decoration: none;
+  margin-right: 10px;
 }
 #container > header > .icon {
   flex: 0 1 auto;
@@ -75,5 +76,5 @@ a {
 #container > footer {
   flex: 1 1 auto;
   margin-top: 20px;
-  text-align: center;
+  text-align: right;
 }
