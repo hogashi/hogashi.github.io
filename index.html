@@ -4,161 +4,78 @@
     <title>hogashi.github.io</title>
     <meta charset="utf-8">
     <meta name="google-site-verification" content="jr4cfFxnJM-5vORZB4cSCUh5esUB5xKfX_2oPECO4Tc" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        font-family: Noto Sans Japanese, Roboto, Lato, Hiragino, Meiryo, sans-serif;
-        line-height: 1.4em;
-      }
-      a {
-        color: #000;
-      }
-      #container > div {
-        display: flex;
-        justify-content: center;
-      }
-      #container > div > .appRoot {
-        flex: 1 1 auto;
-        min-width: 400px;
-        max-width: 1200px;
-        min-height: 800px;
-        padding: 30px 10%;
-        box-sizing: border-box;
-        display: flex;
-        flex-flow: column;
-        justify-content: space-around;
-      }
-      #container > div > .appRoot > header {
-        flex: 0 1 auto;
-        min-height: 100px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-      }
-      #container > div > .appRoot > header > h1 {
-        flex: 0 1 auto;
-        margin: 10px 0;
-      }
-      #container > div > .appRoot > header > h1 > a {
-        text-decoration: none;
-      }
-      #container > div > .appRoot > header > .icon {
-        flex: 0 1 auto;
-        margin-right: 30px;
-        width: 100px;
-        height: 100px;
-        background: center/contain no-repeat url("http://avatars2.githubusercontent.com/u/12870472?v=4&u=76601a5e6d23bc46c0442b8fe4cc39f904f9ace4");
-      }
-      #container > div > .appRoot > main {
-        flex: 0 1 auto;
-        box-sizing: border-box;
-      }
-      #container > div > .appRoot > main > .contents > section > h2 {
-        margin: 20px 0 5px;
-      }
-      #container > div > .appRoot > main > .contents > section > ul {
-        padding-left: 30px;
-        list-style-type: none;
-        font-size: 18px;
-      }
-      #container > div > .appRoot > main > .contents > section > ul > li {
-        margin-top: 10px;
-        position: relative;
-      }
-      #container > div > .appRoot > main > .contents > section > ul > li:before {
-        content: "-";
-        position: absolute;
-        left: -14px;
-        font-size: 22px;
-      }
-      #container > div > .appRoot > main > .contents > section > ul > li > .linkTitle {
-        font-size: 1.1em;
-      }
-      #container > div > .appRoot > main > .contents > section > ul > li > .description {
-        margin: 3px 5px;
-      }
-      #container > div > .appRoot > footer {
-        flex: 1 1 auto;
-        margin-top: 20px;
-        text-align: center;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="./index.css">
   </head>
   <body>
     <div id="container">
-      <div>
-        <div class="appRoot">
-          <header>
-            <h1 class="pageTitle"><a href="/"># hogashi</a></h1>
-            <div class="icon"></div>
-          </header>
-          <main>
-            <div class="contents">
-              <section class="name">
-                <h2>## Name</h2>
-                <ul>
-                  <li>hogashi / hogas</li>
-                  <li>ほがし / ほがす</li>
-                </ul>
-              </section>
-              <section class="links">
-                <h2>## Links</h2>
-                <ul>
-                  <li class="GitHub">
-                    GitHub : <a href="https://github.com/hogashi" target="_blank">hogashi</a>
-                  </li>
-                  <li class="HatenaBlog">
-                    HatenaBlog : <a href="http://hogashi.hatenablog.com" target="_blank">hogashi.*</a>
-                  </li>
-                  <li class="Twitter">
-                    Twitter : <a href="https://twitter.com/hogextend" target="_blank">@hogextend</a>
-                  </li>
-                  <li class="Wishlist">
-                    Amazon Wishlist: <a href="http://amzn.asia/eccbct9" target="_blank">http://amzn.asia/eccbct9</a>
-                  </li>
-                </ul>
-              </section>
-              <section class="products">
-                <h2>## Products</h2>
-                <ul>
-                  <li class="tooi">
-                    <div class="linkTitle">
-                      <a href="https://github.com/hogashi/twitterOpenOriginalImage" target="_blank">twitter画像原寸ボタン</a>
-                    </div>
-                    <div class="description">
-                      Twitter公式Web / TweetDeck で、タイムラインのツイートに添付されている画像を、新しいタブに原寸表示するGoogleChrome拡張機能。
-                      <br>
-                      (UserJS で GreaseMonkey などによりFireFox などのブラウザでも使用可能)
-                    </div>
-                  </li>
-                  <li class="lttimer">
-                    <div class="linkTitle">
-                      <a href="https://gist.github.com/hogashi/4ab8e9512cb71eeb585f5f7d9530a00e" target="_blank">hogas-LTtimer</a>
-                    </div>
-                    <div class="description">
-                      キーボードのみで操作でき、演者からも見やすい LTタイマー。
-                      <br>
-                      (マウスでの操作も可能、分の入力にはキーボードが必須)
-                    </div>
-                  </li>
-                  <li class="json-parser">
-                    <div class="linkTitle">
-                      <a href="https://gist.github.com/hogashi/fa02f23e7df7de08ec66488d98145b45" target="_blank">json-parser</a>
-                    </div>
-                    <div class="description">
-                      一行 JSON を見やすく整形するブックマークレット。API レスポンスのデバッグなどに。
-                    </div>
-                  </li>
-                </ul>
-              </section>
-            </div>
-          </main>
-          <footer>
-            hogashi
-          </footer>
+      <header>
+        <h1 class="pageTitle"><a href="/"># hogashi</a></h1>
+        <div class="icon"></div>
+      </header>
+      <main>
+        <div class="contents">
+          <section class="name">
+            <h2>## Name</h2>
+            <ul>
+              <li>hogashi / hogas</li>
+              <li>ほがし / ほがす</li>
+            </ul>
+          </section>
+          <section class="links">
+            <h2>## Links</h2>
+            <ul>
+              <li class="GitHub">
+                GitHub : <a href="https://github.com/hogashi" target="_blank">hogashi</a>
+              </li>
+              <li class="HatenaBlog">
+                HatenaBlog : <a href="http://hogashi.hatenablog.com" target="_blank">hogashi.*</a>
+              </li>
+              <li class="Twitter">
+                Twitter : <a href="https://twitter.com/hogextend" target="_blank">@hogextend</a>
+              </li>
+              <li class="Wishlist">
+                Amazon Wishlist: <a href="http://amzn.asia/eccbct9" target="_blank">http://amzn.asia/eccbct9</a>
+              </li>
+            </ul>
+          </section>
+          <section class="products">
+            <h2>## Products</h2>
+            <ul>
+              <li class="tooi">
+                <div class="linkTitle">
+                  <a href="https://github.com/hogashi/twitterOpenOriginalImage" target="_blank">twitter画像原寸ボタン</a>
+                </div>
+                <div class="description">
+                  Twitter公式Web / TweetDeck で、タイムラインのツイートに添付されている画像を、新しいタブに原寸表示するGoogleChrome拡張機能。
+                  <br>
+                  (UserJS で GreaseMonkey などによりFireFox などのブラウザでも使用可能)
+                </div>
+              </li>
+              <li class="lttimer">
+                <div class="linkTitle">
+                  <a href="https://gist.github.com/hogashi/4ab8e9512cb71eeb585f5f7d9530a00e" target="_blank">hogas-LTtimer</a>
+                </div>
+                <div class="description">
+                  キーボードのみで操作でき、演者からも見やすい LTタイマー。
+                  <br>
+                  (マウスでの操作も可能、分の入力にはキーボードが必須)
+                </div>
+              </li>
+              <li class="json-parser">
+                <div class="linkTitle">
+                  <a href="https://gist.github.com/hogashi/fa02f23e7df7de08ec66488d98145b45" target="_blank">json-parser</a>
+                </div>
+                <div class="description">
+                  一行 JSON を見やすく整形するブックマークレット。API レスポンスのデバッグなどに。
+                </div>
+              </li>
+            </ul>
+          </section>
         </div>
-      </div>
+      </main>
+      <footer>
+        hogashi
+      </footer>
     </div>
     <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
     <script type="text/javascript">

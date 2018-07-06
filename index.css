@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Noto Sans Japanese, Roboto, Lato, Hiragino, Meiryo, sans-serif;
+  line-height: 1.4em;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+}
+a {
+  color: #000;
+}
+#container {
+  display: flex;
+  justify-content: center;
+  min-width: 400px;
+  width: 100%;
+  min-height: 800px;
+  padding: 30px 10%;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+}
+#container > header {
+  flex: 0 1 auto;
+  min-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+#container > header > h1 {
+  flex: 0 1 auto;
+  margin: 10px 0;
+}
+#container > header > h1 > a {
+  text-decoration: none;
+}
+#container > header > .icon {
+  flex: 0 1 auto;
+  margin-right: 30px;
+  width: 100px;
+  height: 100px;
+  background: center/contain no-repeat url("http://avatars2.githubusercontent.com/u/12870472?v=4&u=76601a5e6d23bc46c0442b8fe4cc39f904f9ace4");
+}
+#container > main {
+  flex: 0 1 auto;
+  box-sizing: border-box;
+}
+#container > main > .contents > section > h2 {
+  margin: 20px 0 5px;
+}
+#container > main > .contents > section > ul {
+  padding-left: 30px;
+  list-style-type: none;
+  font-size: 18px;
+}
+#container > main > .contents > section > ul > li {
+  margin-top: 10px;
+  position: relative;
+}
+#container > main > .contents > section > ul > li:before {
+  content: "-";
+  position: absolute;
+  left: -14px;
+  font-size: 22px;
+}
+#container > main > .contents > section > ul > li > .linkTitle {
+  font-size: 1.1em;
+}
+#container > main > .contents > section > ul > li > .description {
+  margin: 3px 5px;
+}
+#container > footer {
+  flex: 1 1 auto;
+  margin-top: 20px;
+  text-align: center;
+}
